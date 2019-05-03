@@ -1,0 +1,5 @@
+AUTHOR CREDIT: Huiqing (Chirmi) Xi 
+
+Add the following line to the /Code/Basicinfo.php under the ethnicity section
+
+ <option>Latinx</option>
