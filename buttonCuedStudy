@@ -1,0 +1,159 @@
+<!-- AUTHOR: Kostis Papaioannou -->
+
+<style>
+    #content {	width: 90%;  max-width: 800px;  }
+
+<!--Clock area settings--->
+		#ClockArea {
+		display: none;
+		font-size: 140%;
+		text-align: right;
+		margin-bottom: 50px;
+		margin-right: 5px;
+		border-color: #00008B;
+		background: white;
+
+		border-width: 5px;
+		border-style: solid;
+		float: right;
+		position: sticky;
+		}
+</style>
+
+<!--This actually displays the clock.-->
+<div id="ClockArea">
+	<span id="timeRemaining"></span> second<span id="secondsPlural">s</span> remaining
+	</div>
+
+<!--Displays text.-->
+<div><?php echo isset($text) ? $text : ""; ?></div>
+
+<!--cue and answer are each a variable containing words. These words are coming from the Alltrials.csv column Item
+Notice that column Item, TrialType row "studyloop" says 2::6, this means we are grabing items 2 through 7 from
+Experiment/Stimuli/FullStim.csv rows 2 through 7.-->
+
+
+<?php
+	$whole_iterations = NULL;
+	?>
+
+
+<!-- Post number of times words were viewed to the overall data file.-->
+<?php
+	$data = $_POST;
+	$data['Response'] = $whole_iterations; //will write whole_iterations in the overall output file (Reponse column)
+?>
+
+
+<body>
+<!-- <button type="button" onclick="change_word()">Move on!</button> -->
+
+<!-- <input type = "submit" value="Cancel" onclick="reset();"> -->
+
+<!-- kostis papaioannou button -->
+<button type="button" onclick=change_word()>Next</button>
+</body>
+
+<form>
+
+  <div  id="exmapleHTMLcontent">
+
+  </div>
+
+
+</form>
+
+<input type="hidden" value="0" id="clickCount">
+
+<!--This is javascript code to calculate the time remaining. You don't need to worry about this code-->
+<script>
+
+var max_time = <?= is_numeric($maxTime) ? (float) $maxTime : 'null' ?>;
+var trial_start = null;
+//kostis  variables to keep track of time, frequency etc of words
+var integ = 0;
+var nu = 0;
+var cueString2 = $("#cueString").val();
+var cueArray2 = cueString2.split("|");
+words_all = cueArray2.length;
+times_per_word = new Array(cueArray2.length).fill(0);
+click_at = [];
+var time_spent = new Array(cueArray2.length).fill(0);
+
+for (var r = 0; r < time_spent.length; r++) {
+  time_spent[r] = [];
+}
+var time_spent2 = new Array().fill(0);
+
+
+
+COLLECTOR.experiment.<?= $trialType ?> = function() {
+    trial_start = Date.now();
+
+    if (typeof max_time === 'number') {
+        begin_clock();
+    }
+}
+
+function begin_clock() {
+    $("#ClockArea").show();
+    setInterval(update_clock, 0.1);
+}
+
+function update_clock() {
+    var time_elapsed = (Date.now() - trial_start) / 1000;
+    var time_remaining = max_time - time_elapsed;
+
+    var time_remaining_display = Math.floor(time_remaining + 0.5);
+
+    $("#timeRemaining").html(time_remaining_display);
+
+    var time_plural = (time_remaining_display == 1) ? "" : "s";
+    $("#secondsPlural").html(time_plural);
+}
+
+
+// function to change word everytime we press button
+function change_word() {
+// counter for words seen
+var totalCount= $("#clickCount").val();
+// increment every time we press button
+totalCount = parseInt(totalCount) +1;
+$("#clickCount").val(totalCount);
+
+var time_elapsed2 = (Date.now() - trial_start) / 1000;
+var time_remaining2 = max_time - time_elapsed2;
+
+// save the moment we click to keep track of time spent in each words
+click_at.push(time_remaining2);
+// split the cue words in individual words on |
+var cueString = $("#cueString").val();
+var cueArray = cueString.split("|");
+
+// if we are on the end of the list of words we start again, otherwise we keep going
+
+if (nu < cueArray.length) {
+
+  times_per_word[nu] +=1;
+  $("#exmapleHTMLcontent").html(cueArray[nu]);
+}
+else {
+  nu = 0;
+  times_per_word[nu] +=1;
+  $("#exmapleHTMLcontent").html(cueArray[nu]);
+}
+nu++;
+
+
+// in the end we keep the words that have showed,
+// the times the word were clicked in the counter,
+// and number each word has been seen
+
+// save the variables in console
+// (if you press inspect page on the website you will see them)
+
+console.log(cueArray);
+console.log(times_per_word);
+console.log(click_at)
+}
+</script>
