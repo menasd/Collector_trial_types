@@ -1,0 +1,11 @@
+<!---Two choices here: 
+      1. Place image file in same directory as Trial type: Code/TrialTypes/[[trialtype]]/
+      2. Place image in the images folder: Experiment/Stimuli/Images --->
+      
+<!-- Option 1: -->
+<?php
+    $pic1 = fileExists(dirname($trialFiles['display']) . '/Slide1.JPG'); //image name: Slide1.jpg
+    ?>
+<div><img src="<?= $pic1 ?>" width="1000"></div>
+
+<!-- Option 1: -->
