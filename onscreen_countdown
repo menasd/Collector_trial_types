@@ -18,6 +18,9 @@
 
 </style>
 
+<div id="ClockArea">
+<span id="timeRemaining"></span> second<span id="secondsPlural">s</span> remaining</div>	
+
 <script>
 
 var max_time = <?= is_numeric($maxTime) ? (float) $maxTime : 'null' ?>;
