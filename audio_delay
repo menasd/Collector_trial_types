@@ -1,0 +1,39 @@
+<!--- AUTHOR: Rufei Fan ---> 
+
+<div class="textcenter">
+    <audio src="<?= "{$_PATH->experiment}/{$cue}" ?>" id="delay">
+        <p>Your browser does not support the audio element.</p>
+    </audio>
+</div>
+
+<!-- include form to collect RT and advance page -->
+<style>
+    #content {	width: 90%;  max-width: 800px;  }
+</style>
+
+<div><?php echo isset($text) ? $text : ""; ?></div>
+<div class="study">
+    <span class="study-left"   ><?php echo $cue1;    ?></span>
+    <span class="study-divider"><?php echo ":";     ?></span>
+    <span class="study-right"  ><?php echo $answer; ?></span>
+</div>
+<div class="textcenter">
+    <button class="collectorButton collectorAdvance" id="FormSubmitButton">Next</button>
+</div>
+
+<script>
+    // returns a random int in the range [min, max)
+    function get_random_int(min, max) {
+        return Math.floor(Math.random() * (max - min)) + min;
+    }
+    
+    // use timer function on collector, ran as soon as the program starts
+    COLLECTOR.experiment.<?= $trialType ?> = function() {
+        var rand_time_ms = get_random_int(1000, 3000); // get time in milliseconds
+        var rand_time_s  = rand_time_ms / 1000;      // time in seconds
+        
+        COLLECTOR.timer(rand_time_s, function() {
+            document.getElementById("delay").play();
+        });
+    }
+</script>
