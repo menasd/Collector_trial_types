@@ -1,0 +1,22 @@
+1. Add the following code to the /Code/css/glocal.css
+
+.shortAns{
+	color:#333;
+	padding: 10px;
+	margin: 0 auto;
+	overflow: hidden;
+	width: 100%;
+}
+
+2. Add this line in your display.php trial type to show the text box:
+
+<style>
+    #content {
+        width: 90%;
+        max-width: 800px;
+    }
+</style>
+
+<div>
+   <input name="Response" type="text" value="" class="shortAns collectorInput" autocomplete="off">   
+</div>
