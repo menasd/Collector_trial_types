@@ -1,0 +1,20 @@
+<--- AUTHOR: Kate Cook -->
+
+<style>
+
+.taskInstructions {
+	float: left;
+	padding-top: 1px;
+	padding-left: 10px;
+	position: sticky;
+	left: 0;
+	width: 350px;
+	}
+  
+  </style>
+  
+  <div class ="taskInstructions">
+		<div><img src="<?= $src10 ?>"></div>
+				<div class="textright">
+		</div>
+	</div>
