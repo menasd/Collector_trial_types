@@ -1,0 +1,50 @@
+<!-- AUTHOR: Tyson Kerr -->
+
+<style>
+	#ClockArea { 
+		display: none; 
+		font-size: 140%; 
+		text-align: right; 
+		margin-bottom: 50px; 
+		margin-right: 5px; 
+		border-color: #00008B;
+		background: white;
+		
+		border-width: 5px;
+		border-style: solid;
+		float: right;	
+		position: sticky;
+		}
+
+</style>
+
+<script>
+
+var max_time = <?= is_numeric($maxTime) ? (float) $maxTime : 'null' ?>;
+var trial_start = null;
+
+COLLECTOR.experiment.<?= $trialType ?> = function() {
+    trial_start = Date.now();
+    
+    if (typeof max_time === 'number') {
+        begin_clock();
+    }
+}
+
+function begin_clock() {
+    $("#ClockArea").show();
+    setInterval(update_clock, 0.1);
+}
+
+function update_clock() {
+    var time_elapsed = (Date.now() - trial_start) / 1000;
+    var time_remaining = max_time - time_elapsed;
+    
+    var time_remaining_display = Math.floor(time_remaining + 0.5);
+    
+    $("#timeRemaining").html(time_remaining_display);
+    
+    var time_plural = (time_remaining_display == 1) ? "" : "s";
+    $("#secondsPlural").html(time_plural);
+}
+</script>
