@@ -1,0 +1,9 @@
+<?php
+        $cues = explode('|', $cue);
+        $answers = explode('|', $answer);
+        foreach( $cues as $i => $thisCue ):
+            $thisAnswer = $answers[$i];?>
+            <div class="study">
+				<?php echo $_SESSION['Trials'][2]['Response']['Response']; //outputs the user's reponse?> 
+            </div>
+        <?php endforeach; ?>
